@@ -1,3 +1,4 @@
+@props(['hideNav' => false, 'hideFooter' => false, 'pageHeader' => false])
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -17,24 +18,12 @@
     </head>
 <body class="antialiased">
 
-    {{-- Header --}}
-    
-    <!-- Page Heading -->
-    @if (isset($header))
-        <header class="bg-white dark:bg-gray-800 shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
-    @endif
+    <x-header :hideNav="$hideNav" :pageHeader="$pageHeader" />
 
-    <!-- Page Content -->
     <main>
         {{ $slot }}
     </main>
 
-    {{-- Footer  --}}
-
-    {{-- Livewire? --}}
+    <x-footer :hideFooter="$hideFooter" />
 </body>
 </html>
