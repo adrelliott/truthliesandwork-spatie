@@ -18,12 +18,13 @@
     </head>
 <body class="antialiased">
 
-    <x-header :hideNav="$hideNav" :pageHeader="$pageHeader" />
+    <x-header />
 
     <main>
         {{ $slot }}
     </main>
 
-    <x-footer :hideFooter="$hideFooter" />
+    <x-footer />
+    
 </body>
 </html>
