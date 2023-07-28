@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Episode;
+use App\Models\Guest;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
@@ -20,6 +21,7 @@ class EpisodeSeeder extends Seeder
                 ['published_at' => now()],
                 ['published_at' => now()->subDays(rand(2, 40))],
             ))
+            ->has(Guest::factory(3))
             ->create();
     }
 }

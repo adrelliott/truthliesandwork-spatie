@@ -26,6 +26,7 @@ class GuestFactory extends Factory
             'company_website' => $this->faker->domainName(),
             'email' => $this->faker->email(),
             // 'social_links' => $this->faker->word(),
+            'published_at' => now()->subDays(rand(2,30)),
         ];
     }
 }
