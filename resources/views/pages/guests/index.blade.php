@@ -1,6 +1,6 @@
-@php
+<?php
     $guests = App\Models\Guest::all();
-@endphp
+?>
 <x-public>
     This would list all the episodes
     @foreach($guests as $guest)
