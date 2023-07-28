@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('slug')->unique()->index();
             $table->text('excerpt');
             $table->integer('episode_number')->unique();
-            $table->string('youtube_url');
+            $table->string('youtube_id');
+            $table->string('megaphone_id');
             $table->string('thumbnail');
-            $table->boolean('is_free')->default(true);
             $table->boolean('is_premium')->default(false);
             $table->string('author'); // will be realtionships soon
             $table->timestamp('published_at')->nullable();

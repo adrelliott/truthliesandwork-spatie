@@ -22,9 +22,9 @@ class EpisodeFactory extends Factory
             'slug' => $this->faker->unique()->slug(),
             'excerpt' => $this->faker->paragraph(3),
             'episode_number' => $this->faker->unique()->numberBetween(1, 100),
-            'youtube_url' => $this->faker->url(),
+            'youtube_id' => $this->faker->word(),
+            'megaphone_id' => $this->faker->word(),
             'thumbnail' => $this->faker->imageUrl(),
-            'is_free' => true,
             'is_premium' => false,
             'author' => $this->faker->name(),
             'published_at' => $this->faker->date()

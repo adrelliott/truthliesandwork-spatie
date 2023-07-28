@@ -18,9 +18,9 @@ class Episode extends Model
         'slug',
         'excerpt',
         'episode_number',
-        'youtube_url',
+        'youtube_id',
+        'megaphone_id',
         'thumbnail',
-        'is_free',
         'is_premium',
         'author'
     ];
