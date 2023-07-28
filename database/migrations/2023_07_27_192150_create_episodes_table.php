@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('is_free')->default(true);
             $table->boolean('is_premium')->default(false);
             $table->string('author'); // will be realtionships soon
+            $table->timestamp('published_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

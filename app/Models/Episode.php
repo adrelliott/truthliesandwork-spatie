@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\PublishedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,4 +24,9 @@ class Episode extends Model
         'is_published',
         'author'
     ];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new PublishedScope);
+    }
 }

@@ -27,6 +27,7 @@ class EpisodeFactory extends Factory
             'is_free' => true,
             'is_premium' => false,
             'author' => $this->faker->name(),
+            'published_at' => $this->faker->date()
         ];
     }
 }
