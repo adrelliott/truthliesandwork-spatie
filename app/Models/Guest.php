@@ -6,6 +6,7 @@ use App\Models\Scopes\PublishedScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Guest extends Model
 {
@@ -26,5 +27,10 @@ class Guest extends Model
     protected static function booted(): void
     {
         static::addGlobalScope(new PublishedScope);
+    }
+
+    public function episodes(): BelongsToMany
+    {
+        return $this->belongsToMany(Episode::class);
     }
 }
