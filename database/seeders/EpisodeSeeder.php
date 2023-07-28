@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Episode;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class EpisodeSeeder extends Seeder
@@ -12,6 +14,12 @@ class EpisodeSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Episode::factory()->count(10)->create();
+        Episode::factory(20)
+            ->state(new Sequence(
+                ['published_at' => null],
+                ['published_at' => now()],
+                ['published_at' => now()->subDays(rand(2, 40))],
+            ))
+            ->create();
     }
 }

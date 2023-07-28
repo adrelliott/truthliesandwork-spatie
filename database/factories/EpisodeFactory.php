@@ -19,7 +19,7 @@ class EpisodeFactory extends Factory
         return [
             'title' => $this->faker->sentence(3),
             'subtitle' => $this->faker->sentence(6),
-            'slug' => $this->faker->slug(),
+            'slug' => $this->faker->unique()->slug(),
             'excerpt' => $this->faker->paragraph(3),
             'episode_number' => $this->faker->unique()->numberBetween(1, 100),
             'youtube_url' => $this->faker->url(),
