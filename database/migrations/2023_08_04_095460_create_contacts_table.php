@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('job_title')->nullable();
             $table->string('company_name')->nullable();
             $table->string('phone')->nullable();
+            $table->string('website')->nullable();
+            $table->string('linked_in')->nullable();
+            $table->string('twitter')->nullable();
+            $table->json('links')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
