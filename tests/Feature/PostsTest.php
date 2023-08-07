@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Interview;
 use App\Models\Post;
 
 test('example', function () {
@@ -112,8 +113,16 @@ test('can retrieve posts of certain types using the enum PostType', function() {
     $this->assertCount(5, Post::where('post_type', App\Enums\PostType::Interview)->get());
 });
 
+test('a post can have many interviews', function() {
+    $post = Post::factory()->create();
+    $interviews = Interview::factory(3)->create();
+    $post->interviews()->attach($interviews->pluck('id'));
 
+    $postWithInterviews = Post::with('interviews')->first();
+    $this->assertCount(3, $postWithInterviews->interviews);
+});
 
+// -------------------------
 
 test('will show an unpublished post only if a secret key is passed', function() {
     $publishedPosts = Post::factory()->create(2);

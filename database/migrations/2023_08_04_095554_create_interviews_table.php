@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->index()->unique();
-            $table->text('content');
+            $table->text('description')->nullable();
+            $table->text('transcript')->nullable(); 
+            $table->string('youtube_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
