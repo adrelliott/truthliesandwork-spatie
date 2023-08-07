@@ -41,32 +41,87 @@ test('posts can be force deleted', function() {
 test('posts can be published', function() {
     $post = Post::factory()->create();
     $post->publish();
-    $this->assertNotNull($post->published_at);
+    $post->save();
+    $this->assertNotNull(Post::first()->published_at);
 });
 
 test('posts can be unpublished', function() {
     $post = Post::factory()->create();
     $post->publish();
     $post->unpublish();
-    $this->assertNull($post->published_at);
+    $post->save();
+    $postFromDB = Post::first();
+    $this->assertNull($postFromDB->published_at);
 });
 
 test('posts can be published on a specfic date', function() {
     $post = Post::factory()->create();
     $post->publish(Carbon\Carbon::parse('2021-01-01'));
-    $this->assertEquals('2021-01-01', $post->published_at->format('Y-m-d'));
+    $post->save();
+    $postFromDB = Post::first();
+    $this->assertEquals('2021-01-01', $postFromDB->published_at->format('Y-m-d'));
 });
 
 test('posts can have related posts', function() {
     $post = Post::factory()->create();
-    $relatedPost = Post::factory()->create();
-    $post->relatedPosts()->attach($relatedPost);
-    $this->assertCount(1, $post->relatedPosts);
+    $relatedPosts = Post::factory(2)->create();
+    $post->relatedPosts()->attach($relatedPosts->pluck('id'));
+    $this->assertCount(2, $post->relatedPosts);
 });
 
-test('will retrun only published posts when using publishedPosts scope', function() {
-    $publishedPost = Post::factory()->create();
+test('will return only published posts when using publishedPosts scope', function() {
+    $publishedPosts = Post::factory(2)->create();
     $unpublishedPost = Post::factory()->create();
-    $publishedPost->publish();
-    $this->assertCount(1, Post::published()->get());
+    $futurePublishedPost = Post::factory(3)->create([
+        'published_at' => now()->addDay(),
+    ]);
+    $publishedPosts->each(function ($post) {
+        $post->publish();
+    });
+    $this->assertCount(2, Post::published()->get());
 });
+
+test('will only return unpublished posts when using unpublishedPosts scope', function() {
+    $publishedPost = Post::factory()->create();
+    $unpublishedPosts = Post::factory(2)->create();
+    $publishedPost->publish();
+    $this->assertCount(2, Post::unpublished()->get());
+});
+
+test('can assign a post type using an enum', function() {
+    Post::factory()->create([
+        'post_type' => App\Enums\PostType::Article,
+    ]);
+    $post = Post::first();
+    $this->assertEquals(App\Enums\PostType::Article, $post->post_type);
+    $this->assertNotEquals(App\Enums\PostType::Episode, $post->post_type);
+});
+
+test('can retrieve posts of certain types using the enum PostType', function() {
+    Post::factory(3)->create([
+        'post_type' => App\Enums\PostType::Article,
+    ]);
+    Post::factory(4)->create([
+        'post_type' => App\Enums\PostType::Episode,
+    ]);
+    Post::factory(5)->create([
+        'post_type' => App\Enums\PostType::Interview,
+    ]);
+    $this->assertCount(3, Post::where('post_type', App\Enums\PostType::Article)->get());
+    $this->assertCount(4, Post::where('post_type', App\Enums\PostType::Episode)->get());
+    $this->assertCount(5, Post::where('post_type', App\Enums\PostType::Interview)->get());
+});
+
+
+
+
+test('will show an unpublished post only if a secret key is passed', function() {
+    $publishedPosts = Post::factory()->create(2);
+    $unpublishedPost = Post::factory()->create();
+    $publishedPosts->each(function($post) {
+        $post->publish();
+    });
+    $this->get($unpublishedPost->path())->assertSee($unpublishedPost->title);
+    $this->get($unpublishedPost->path())->assertDontSee($unpublishedPost->title);
+    $this->get($unpublishedPost->path() . '?secret=' . $unpublishedPost->secret)->assertSee($unpublishedPost->title);
+})->skip();

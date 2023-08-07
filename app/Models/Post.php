@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PostType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,11 @@ class Post extends Model
         'slug',
         'content',
         'published_at',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
+        'post_type' => PostType::class,
     ];
 
     public function publish(Carbon $publishDate = null): void
@@ -35,7 +41,7 @@ class Post extends Model
 
     public function scopePublished($query)
     {
-        $query->whereNotNull('published_at');
+        $query->where('published_at', '<=', now());
     }
 
     public function scopeUnpublished($query)
