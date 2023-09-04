@@ -7,8 +7,8 @@ function getDomainName(): string
         ->explode('.')
         ->first();
 
-    if (! in_array($domain, \App\Enums\RegisteredDomains::getValues())) {
-        return $domain;
-    }
+    // if (! in_array($domain, \App\Enums\RegisteredDomains::getValues())) {
+    //     return $domain;
+    // }
     else "noooo";
 }
