@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email');
+            $table->string('type')->default('guest');
             $table->string('job_title')->nullable();
             $table->string('company_name')->nullable();
             $table->string('phone')->nullable();

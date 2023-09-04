@@ -16,7 +16,8 @@ return new class extends Migration
             $table->integer('post_type')->default(0);
             $table->string('title');
             $table->string('slug')->index()->unique();
-            $table->text('content');
+            $table->text('content')->nullable();
+            $table->mediumText('transcript')->nullable();
             $table->softDeletes();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
