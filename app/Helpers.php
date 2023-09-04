@@ -7,8 +7,10 @@ function getDomainName(): string
         ->explode('.')
         ->first();
 
-    // if (! in_array($domain, \App\Enums\RegisteredDomains::getValues())) {
-    //     return $domain;
-    // }
-    else "noooo";
+    $allowedDomains = array_column(\App\Enums\RegisteredDomains::cases(), 'value');
+    
+    if (! in_array($domain, $allowedDomains)) {
+        throw new \Exception('Domain not registered');    
+    }
+    return $domain;
 }
